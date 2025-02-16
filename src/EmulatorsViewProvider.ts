@@ -1,12 +1,11 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
-import { getAndroidEmulators, runAndroidEmulator, streamAndroidLogs } from "./android";
+import { getAndroidEmulators, killAndroidEmulator, runAndroidEmulator, streamAndroidLogs } from "./android";
 import { IEmulator } from "./types";
 
 export class EmulatorViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "emulatorView";
-
 
   constructor(private readonly _extensionUri: vscode.Uri) {}
 
@@ -73,7 +72,10 @@ export class EmulatorViewProvider implements vscode.WebviewViewProvider {
           this.sendEmulatorsData(webviewView);
           break;
         case "startEmulator":
-          runAndroidEmulator(message.emulator);
+          runAndroidEmulator(message.emulator, message.isColdBoot);
+          break;
+        case "killEmulator":
+          killAndroidEmulator(message.emulator);
           break;
         case "getLogs":
           this.sendLogs(webviewView, message.emulator);

@@ -2,6 +2,8 @@ const vscode = acquireVsCodeApi();
 
 let imageUris = {};
 
+const emulatorsContainer = document.getElementById("android-emulators-container");
+
 // On load, request the list of emulators
 vscode.postMessage({ command: "getEmulators" });
 // Get the images
@@ -11,40 +13,44 @@ setInterval(() => {
   vscode.postMessage({ command: "getEmulators" });
 }, 3000);
 
-const renderEmulatorCard = (emulator) => {
+const renderEmulatorCard = (emulator, index) => {
   const emulatorCard = document.createElement("div");
+  const labelSuffix = `-${emulator.label.replace(/[\s_]/g, '-')}-${index}`;
+  
   emulatorCard.classList.add("emulatorCard");
-  if(emulator.isRunning) {
+  
+  if (emulator.isRunning) {
     emulatorCard.classList.add("running");
   }
+
   emulatorCard.innerHTML = `
       <div class="detailsContainer">
-        <img class="deviceTypeImage" src="${imageUris['android.svg']}" alt="android" />
-        <span>${emulator.label}</span>
+        <img class="deviceTypeImage" src="${imageUris["android.svg"]}" alt="android" />
+        <span>${emulator.label.replaceAll('_',' ')}</span>
       </div>
       <div class="actionsContainer">
-        <button id="killEmulator-${emulator.label}" class="actionButton killEmulatorButton">◯</button>
-        <button id="startEmulator-${emulator.label}" class="actionButton startEmulatorButton">▷</button>
+        <button id="killEmulator${labelSuffix}" class="actionButton killEmulatorButton">◯</button>
+        <button id="coldBootEmulator${labelSuffix}" class="actionButton coldBootEmulatorButton">⭮</button>
+        <button id="startEmulator${labelSuffix}" class="actionButton startEmulatorButton">▷</button>
       </div>
   `;
 
+    emulatorsContainer.appendChild(emulatorCard);
 
-  const emulatorsContainer = document.getElementById("android-emulators-container");
-  emulatorsContainer.appendChild(emulatorCard);
-
-  const startEmulatorButton = document.getElementById(`startEmulator-${emulator.label}`);
-  const killEmulatorButton = document.getElementById(`killEmulator-${emulator.label}`);
-
-  startEmulatorButton.addEventListener("click", () => startEmulator(emulator));
-  killEmulatorButton.addEventListener("click", () => getLogs(emulator));
+    const startEmulatorButton = document.getElementById(`startEmulator${labelSuffix}`);
+    const killEmulatorButton = document.getElementById(`killEmulator${labelSuffix}`);
+    const coldBootEmulatorButton = document.getElementById(`coldBootEmulator${labelSuffix}`);
+    
+    startEmulatorButton.addEventListener("click", () => startEmulator(emulator));
+    killEmulatorButton.addEventListener("click", () => killEmulator(emulator));
+    coldBootEmulatorButton.addEventListener("click", () => startEmulator(emulator, true));
 };
 
 const handleRenderEmulatorsCards = (emulators) => {
-  const emulatorsContainer = document.getElementById("android-emulators-container");
   emulatorsContainer.innerHTML = "";
 
-  emulators.forEach((emulator) => {
-    renderEmulatorCard(emulator);
+  emulators.forEach((emulator, index) => {
+    renderEmulatorCard(emulator, index);
   });
 };
 
@@ -70,8 +76,12 @@ const handleGetLogs = (logs) => {
   console.log("handleGetLogs", logs);
 };
 
-const startEmulator = (emulator) => {
-  vscode.postMessage({ command: "startEmulator", emulator });
+const startEmulator = (emulator, isColdBoot = false) => {
+  vscode.postMessage({ command: "startEmulator", emulator, isColdBoot });
+};
+
+const killEmulator = (emulator) => {
+  vscode.postMessage({ command: "killEmulator", emulator });
 };
 
 const getLogs = (emulator) => {

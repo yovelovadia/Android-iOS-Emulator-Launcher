@@ -1,3 +1,9 @@
+#android-emulators-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .emulatorCard {
   display: flex;
   border-radius: 2px;
@@ -6,7 +12,7 @@
   background-color: #414141;
   gap: 4px;
   padding: 10px;
-  width: 300px;
+  max-width: 300px;
   position: relative;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);
 }
@@ -70,11 +76,14 @@
   color: #4dff4d;
 }
 
+.coldBootEmulatorButton{
+  color: #fcf963;
+}
+
 .deviceTypeImage {
   width: 25px;
   height: 25px;
 }
-
 
 @keyframes loadingBorder {
   0% {
@@ -82,5 +91,17 @@
   }
   100% {
     --angle: 360deg;
+  }
+}
+
+
+@media (max-width: 250px) {
+  .detailsContainer {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .actionsContainer {
+   flex-direction: column-reverse;
   }
 }

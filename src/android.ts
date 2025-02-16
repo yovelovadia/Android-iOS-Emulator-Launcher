@@ -1,4 +1,4 @@
-import { window, QuickPickItem } from "vscode";
+import { window } from "vscode";
 import { getPath, isWSL } from "./config";
 import path from "path";
 import { runCmd, runCmdSpawn } from "./utils";
@@ -19,8 +19,9 @@ const getEmulatorPath = (androidPath: string) => {
   return `${emulatorPath}`;
 };
 
-const getAdbPath = (): string => { // TODO: make this generic as well
-  return path.join(os.homedir(), "AppData", "Local", "Android", "Sdk", "platform-tools", "adb");
+const getAdbPath = (): string => { 
+  const androidSdkPath = process.env.ANDROID_SDK_ROOT || path.join(os.homedir(), "AppData", "Local", "Android", "Sdk");
+  return path.join(androidSdkPath, "platform-tools", "adb");
 };
 
 
@@ -47,7 +48,7 @@ export const getAndroidEmulators = async (): Promise<IEmulator[]> => {
   const runningDevicesString = await runCmd(`${getAdbPath()} devices`);
 
   if (typeof allDevicesString === "string") {
-    const allDevices = allDevicesString.trim().split("\n");
+    const allDevices = allDevicesString.trim().split("\r\n");
 
     const response:IEmulator[] =  allDevices.map((emulator) => ({ label: emulator, isRunning: false, instanceId: '' }));
 
@@ -69,11 +70,21 @@ export const getAndroidEmulators = async (): Promise<IEmulator[]> => {
   return [];
 };
 
-export const runAndroidEmulator = async (emulator: IEmulator) => {
+export const runAndroidEmulator = async (emulator: IEmulator, isColdBoot: boolean) => {
   const androidPath = getPath();
-  const command = `${getEmulatorPath(androidPath)} -avd ${emulator.label}`.replace("~", os.homedir());
-
+  if(emulator.isRunning && isColdBoot) {
+    await killAndroidEmulator(emulator);
+    await new Promise(resolve => setTimeout(resolve, 5000));
+  }
+  
+  const command = `${getEmulatorPath(androidPath)} -avd ${emulator.label} ${isColdBoot ? "-no-snapshot-load" : ""}`.replace("~", os.homedir());
   await runCmd(command);
+};
+
+export const killAndroidEmulator = async (emulator: IEmulator) => {
+  const adbPath = getAdbPath();
+  
+  await runCmd(`${adbPath} -s ${emulator.instanceId} emu kill`);
 };
 
 export const streamAndroidLogs = async (emulator: string, onData: (data: string) => void) => {
