@@ -1,0 +1,5 @@
+What will the extension be able to do?
+1. Start/Stop emulators/simulators
+2. Have logs of the emulator/simulator
+3. Have a ui showing which emulators/simulators are running/available
+4. Have a ui to start/stop emulators/simulators

@@ -1,0 +1,86 @@
+.emulatorCard {
+  display: flex;
+  border-radius: 2px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #414141;
+  gap: 4px;
+  padding: 10px;
+  width: 300px;
+  position: relative;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.emulatorCard.running::before, .emulatorCard.running::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: calc(100% + 3px);
+  height: calc(100% + 3px);
+  border-radius: 2px;
+  background-image: conic-gradient(from var(--angle), transparent 60%, #4dff4d);
+  animation: loadingBorder 3s linear infinite;
+  z-index: -1;
+}
+
+.emulatorCard.running::before {
+  filter: blur(5px);
+  opacity: 0.5;
+}
+
+.detailsContainer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionsContainer {
+  display: flex;
+}
+
+.actionButton {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  transition: background-color 0.3s ease-in-out;
+  line-height: 0;
+}
+
+.actionButton:hover {
+  background-color: #4d4d4d;
+}
+
+.killEmulatorButton {
+  color: #ff4d4d;
+}
+
+.startEmulatorButton {
+  color: #4dff4d;
+}
+
+.deviceTypeImage {
+  width: 25px;
+  height: 25px;
+}
+
+
+@keyframes loadingBorder {
+  0% {
+    --angle: 0deg;
+  }
+  100% {
+    --angle: 360deg;
+  }
+}
