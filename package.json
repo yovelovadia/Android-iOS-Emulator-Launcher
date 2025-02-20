@@ -1,12 +1,13 @@
 {
-  "name": "android-ios-emulator-launcher",
-  "displayName": "Android iOS Emulator Launcher",
+  "name": "device-android-ios-launcher",
+  "displayName": "Device Android/IOS Launcher",
   "description": "no description for now",
   "publisher": "YovelOvadia",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.92.0"
+    "vscode": "^1.96.0"
   },
+  "repository": {"type": "git", "url": "https://github.com/yovelovadia/Android-iOS-Emulator-Launcher"},
   "categories": [
     "Other"
   ],

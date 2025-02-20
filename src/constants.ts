@@ -1,4 +1,4 @@
-export const packagePrefix = "android-ios-emulator-launcher";
+export const packagePrefix = "device-android-ios-launcher";
 
 export const IOS_COMMANDS = {
   LIST_SIMULATORS: "xcrun simctl list --json devices",
