@@ -2,9 +2,9 @@ import { window } from "vscode";
 import { getAdbPath, getEmulatorPath, isWSL } from "./config";
 import { runCmd, runCmdSpawn } from "./utils";
 import os from "os";
-import { IEmulator } from "./types";
+import { IDevice } from "./types";
 
-const getDeviceDetails = async (emulator:IEmulator, runningDevices:string[]) => {
+const getDeviceDetails = async (emulator:IDevice, runningDevices:string[]) => {
   const deviceDetails = {isRunning: false, instanceId: ''};
   
   for (const id of runningDevices) {
@@ -20,14 +20,14 @@ const getDeviceDetails = async (emulator:IEmulator, runningDevices:string[]) => 
 };
 
 
-export const getAndroidEmulators = async (): Promise<IEmulator[]> => {
+export const getAndroidEmulators = async (): Promise<IDevice[]> => {
   const allDevicesString = await runCmd(`${getEmulatorPath()} -list-avds`.replace("~", os.homedir()));
   const runningDevicesString = await runCmd(`${getAdbPath()} devices`);
   
   if (typeof allDevicesString === "string") {
     const allDevices = allDevicesString.trim().split("\r\n");
 
-    const response:IEmulator[] =  allDevices.map((emulator) => ({ label: emulator, isRunning: false, instanceId: '' }));
+    const response:IDevice[] =  allDevices.map((emulator) => ({ label: emulator, isRunning: false, instanceId: '', type: "android" }));
 
     if (typeof runningDevicesString === "string") {
       const runningDevices = runningDevicesString.split("\n").slice(1).map((line) => line.split("\t")[0]).filter((id) => id.startsWith("emulator-"));
@@ -47,7 +47,7 @@ export const getAndroidEmulators = async (): Promise<IEmulator[]> => {
   return [];
 };
 
-export const runAndroidEmulator = async (emulator: IEmulator, isColdBoot: boolean) => {
+export const runAndroidEmulator = async (emulator: IDevice, isColdBoot: boolean) => {
   if(emulator.isRunning && isColdBoot) {
     await killAndroidEmulator(emulator);
     await new Promise(resolve => setTimeout(resolve, 5000));
@@ -57,7 +57,7 @@ export const runAndroidEmulator = async (emulator: IEmulator, isColdBoot: boolea
   await runCmd(command);
 };
 
-export const killAndroidEmulator = async (emulator: IEmulator) => {
+export const killAndroidEmulator = async (emulator: IDevice) => {
   const adbPath = getAdbPath();
   
   await runCmd(`${adbPath} -s ${emulator.instanceId} emu kill`);

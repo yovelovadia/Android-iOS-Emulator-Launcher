@@ -1,18 +1,17 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
-import { getAndroidEmulators, killAndroidEmulator, runAndroidEmulator, streamAndroidLogs } from "./android";
-import { IEmulator } from "./types";
-import { getIOSSimulators } from "./ios";
+import { Actions } from "./actions";
 
 export class EmulatorViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "emulatorView";
+  private actions!: Actions;
 
   constructor(private readonly _extensionUri: vscode.Uri) {}
 
   public async resolveWebviewView(
     webviewView: vscode.WebviewView,
-    context: vscode.WebviewViewResolveContext,
+    _context: vscode.WebviewViewResolveContext,
     _token: vscode.CancellationToken
   ) {
     webviewView.webview.options = {
@@ -22,15 +21,17 @@ export class EmulatorViewProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
+    
+    this.actions = new Actions(webviewView);
     this.handleReceivedMessages(webviewView);
   }
 
   private _getHtmlForWebview(webview: vscode.Webview): string {
-    const htmlPath = path.join(this._extensionUri.fsPath, "src", "emulatorView.html");
+    const htmlPath = path.join(this._extensionUri.fsPath, "src", "view", "emulatorView.html");
     let htmlContent = fs.readFileSync(htmlPath, "utf8");
 
-    const cssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "emulatorView.css"));
-    const jsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "emulatorView.js"));
+    const cssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "view", "emulatorView.css"));
+    const jsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "view", "emulatorView.js"));
     const resetCssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "reset.css"));
     const vscodeCssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css"));
 
@@ -55,33 +56,23 @@ export class EmulatorViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.postMessage({ command: "setImageUris", imageUris });
   }
 
-  private async sendEmulatorsSimulators(webviewView: vscode.WebviewView) {
-    const androidEmulators = await getAndroidEmulators();
-    webviewView.webview.postMessage({ command: "setEmulators", androidEmulators});
-  }
-
-  private sendLogs(webviewView: vscode.WebviewView, emulator: IEmulator) {
-    streamAndroidLogs(emulator.instanceId, (logs) => {
-      webviewView.webview.postMessage({ command: "setLogs", logs });
-    });
-  }
 
   private handleReceivedMessages(webviewView: vscode.WebviewView) {
     webviewView.webview.onDidReceiveMessage(async (message) => {
       try {
         switch (message.command) {
-          case "getEmulatorsSimulators":
-            this.sendEmulatorsSimulators(webviewView);
+          case "getDevices":
+            this.actions.sendAvailableDevices();
             break;
-          case "startEmulator":
-            runAndroidEmulator(message.emulator, message.isColdBoot);
+          case "startDevice":
+            this.actions.runDevice(message.emulator, message.isColdBoot);
             break;
-          case "killEmulator":
-            killAndroidEmulator(message.emulator);
+          case "killDevice":
+            this.actions.killDevice(message.emulator);
             break;
-          case "getLogs":
-            this.sendLogs(webviewView, message.emulator);
-            break;
+          // case "getLogs":
+          //   this.sendLogs(webviewView, message.emulator);
+          //   break;
           case "getImageUris":
             this.setImageUris(webviewView);
             break;

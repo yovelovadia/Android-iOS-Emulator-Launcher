@@ -1,7 +1,7 @@
 import { window } from 'vscode';
 import { runCmd } from './utils';
 import { IOS_COMMANDS } from './constants';
-import { IEmulator, IListSimulatorsResponse } from './types';
+import { IDevice, IListSimulatorsResponse } from './types';
 import { getIosPath } from './config';
 
 export const getIOSSimulators = async () => {
@@ -9,7 +9,7 @@ export const getIOSSimulators = async () => {
     const res = await runCmd(IOS_COMMANDS.LIST_SIMULATORS) as string;
     const { devices } = JSON.parse(res) as IListSimulatorsResponse;
 
-    let simulators:IEmulator[] = [];
+    let simulators:IDevice[] = [];
 
     for (const key in devices) {
       for (const device of devices[key]) {
@@ -18,6 +18,7 @@ export const getIOSSimulators = async () => {
             instanceId: device.udid,
             label: device.name,
             isRunning: device.state === 'Booted' || device.state === 'Booting',
+            type: 'ios'
           });
         }
         }
@@ -32,7 +33,7 @@ export const getIOSSimulators = async () => {
   }
 };
 
-export const runIOSSimulator = async (simulator:IEmulator) => {
+export const runIOSSimulator = async (simulator:IDevice) => {
   try {
     const xcodePath = await runCmd(IOS_COMMANDS.DEVELOPER_DIR) as string;
 

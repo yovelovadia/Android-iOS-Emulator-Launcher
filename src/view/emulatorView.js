@@ -5,12 +5,12 @@ let imageUris = {};
 const emulatorsContainer = document.getElementById("android-emulators-container");
 
 // On load, request the list of emulators
-vscode.postMessage({ command: "getEmulatorsSimulators" });
+vscode.postMessage({ command: "getDevices" });
 // Get the images
 vscode.postMessage({ command: "getImageUris" });
 
 setInterval(() => {
-  vscode.postMessage({ command: "getEmulatorsSimulators" });
+  vscode.postMessage({ command: "getDevices" });
 }, 3000);
 
 const renderEmulatorCard = (emulator, index) => {
@@ -29,21 +29,21 @@ const renderEmulatorCard = (emulator, index) => {
         <span>${emulator.label.replaceAll('_',' ')}</span>
       </div>
       <div class="actionsContainer">
-        <button id="killEmulator${labelSuffix}" title="Kill" class="actionButton killEmulatorButton">▢</button>
+        <button id="killDevice${labelSuffix}" title="Kill" class="actionButton killDeviceButton">▢</button>
         <button id="coldBootEmulator${labelSuffix}" title="Cold Boot" class="actionButton coldBootEmulatorButton">⭮</button>
-        <button id="startEmulator${labelSuffix}" title="Start" class="actionButton startEmulatorButton">▷</button>
+        <button id="startDevice${labelSuffix}" title="Start" class="actionButton startDeviceButton">▷</button>
       </div>
   `;
 
     emulatorsContainer.appendChild(emulatorCard);
 
-    const startEmulatorButton = document.getElementById(`startEmulator${labelSuffix}`);
-    const killEmulatorButton = document.getElementById(`killEmulator${labelSuffix}`);
+    const startDeviceButton = document.getElementById(`startDevice${labelSuffix}`);
+    const killDeviceButton = document.getElementById(`killDevice${labelSuffix}`);
     const coldBootEmulatorButton = document.getElementById(`coldBootEmulator${labelSuffix}`);
     
-    startEmulatorButton.addEventListener("click", () => startEmulator(emulator));
-    killEmulatorButton.addEventListener("click", () => killEmulator(emulator));
-    coldBootEmulatorButton.addEventListener("click", () => startEmulator(emulator, true));
+    startDeviceButton.addEventListener("click", () => startDevice(emulator));
+    killDeviceButton.addEventListener("click", () => killDevice(emulator));
+    coldBootEmulatorButton.addEventListener("click", () => startDevice(emulator, true));
 };
 
 const handleRenderEmulatorsCards = (emulators) => {
@@ -59,7 +59,7 @@ window.addEventListener("message", (event) => {
   console.log("message happened", event.data);
 
   switch (message.command) {
-    case "setEmulators":
+    case "setAvailableDevices":
       handleRenderEmulatorsCards(message.androidEmulators);
       break;
     case "setLogs":
@@ -76,12 +76,12 @@ const handleGetLogs = (logs) => {
   console.log("handleGetLogs", logs);
 };
 
-const startEmulator = (emulator, isColdBoot = false) => {
-  vscode.postMessage({ command: "startEmulator", emulator, isColdBoot });
+const startDevice = (emulator, isColdBoot = false) => {
+  vscode.postMessage({ command: "startDevice", emulator, isColdBoot });
 };
 
-const killEmulator = (emulator) => {
-  vscode.postMessage({ command: "killEmulator", emulator });
+const killDevice = (emulator) => {
+  vscode.postMessage({ command: "killDevice", emulator });
 };
 
 const getLogs = (emulator) => {

@@ -1,7 +1,8 @@
-export interface IEmulator {
+export interface IDevice {
   instanceId: string;
   label: string;
   isRunning: boolean;
+  type:"android" | "ios";
 }
 
 export interface ISimulatorRaw {
