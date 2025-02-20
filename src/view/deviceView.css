@@ -1,10 +1,24 @@
-#android-emulators-container{
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.container{
+  padding-bottom: 40px;
+}
+
+.section-title{
+  margin: 24px 0;
+}
+
+#android-emulators-container, #ios-simulators-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.emulatorCard {
+.deviceCard {
   display: flex;
   border-radius: 2px;
   justify-content: space-between;
@@ -12,18 +26,11 @@
   background-color: #414141;
   gap: 4px;
   padding: 10px;
-  max-width: 300px;
   position: relative;
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);
 }
 
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.emulatorCard.running::before, .emulatorCard.running::after {
+.deviceCard.running::before, .deviceCard.running::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -37,7 +44,7 @@
   z-index: -1;
 }
 
-.emulatorCard.running::before {
+.deviceCard.running::before {
   filter: blur(5px);
   opacity: 0.5;
 }
@@ -50,6 +57,7 @@
 
 .actionsContainer {
   display: flex;
+  align-items: center;
 }
 
 .actionButton {
@@ -64,20 +72,13 @@
   line-height: 0;
 }
 
+.actionButtonImage{
+  width: 15px;
+  height: 15px;
+}
+
 .actionButton:hover {
   background-color: #4d4d4d;
-}
-
-.killDeviceButton {
-  color: #ff4d4d;
-}
-
-.startDeviceButton {
-  color: #4dff4d;
-}
-
-.coldBootEmulatorButton{
-  color: #fcf963;
 }
 
 .deviceTypeImage {

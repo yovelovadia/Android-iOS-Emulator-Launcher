@@ -23,9 +23,9 @@ const getDeviceDetails = async (emulator:IDevice, runningDevices:string[]) => {
 export const getAndroidEmulators = async (): Promise<IDevice[]> => {
   const allDevicesString = await runCmd(`${getEmulatorPath()} -list-avds`.replace("~", os.homedir()));
   const runningDevicesString = await runCmd(`${getAdbPath()} devices`);
-  
+
   if (typeof allDevicesString === "string") {
-    const allDevices = allDevicesString.trim().split("\r\n");
+    const allDevices = allDevicesString.trim().split("\n").filter((emulator) => emulator.length > 0 && !emulator.startsWith("INFO"));
 
     const response:IDevice[] =  allDevices.map((emulator) => ({ label: emulator, isRunning: false, instanceId: '', type: "android" }));
 
@@ -63,6 +63,7 @@ export const killAndroidEmulator = async (emulator: IDevice) => {
   await runCmd(`${adbPath} -s ${emulator.instanceId} emu kill`);
 };
 
+// TODO - Implement this function
 export const streamAndroidLogs = async (emulator: string, onData: (data: string) => void) => {
   const adbPath = getAdbPath();
 

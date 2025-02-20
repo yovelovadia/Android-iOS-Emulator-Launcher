@@ -4,7 +4,7 @@
   "description": "no description for now",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.96.0"
+    "vscode": "^1.92.0"
   },
   "categories": [
     "Other"
@@ -24,15 +24,30 @@
     "configuration": {
       "title": "Emulator Configuration",
       "properties": {
+        "devicesManage.simulatorPath": {
+          "type": "string",
+          "default": "",
+          "description": "The absolute path of your Xcode simulator directory containing the Simulator.app script. Leaving it empty will automatically select the path with xcode-select -p."
+        },
         "devicesManage.emulatorPath": {
           "type": "string",
           "default": "~\\AppData\\Local\\Android\\Sdk\\emulator\\emulator",
           "description": "The absolute path of your Android emulator directory containing the emulator script."
         },
-        "devicesManage.simulatorPath": {
+        "devicesManage.emulatorPathMac": {
           "type": "string",
-          "default": "",
-          "description": "The absolute path of your Xcode simulator directory containing the Simulator.app script. Leaving it empty will automatically select the path with xcode-select -p."
+          "default": "~/Library/Android/sdk/emulator/emulator",
+          "description": "The absolute path of the Android emulator directory on your MacBook containing the emulator script."
+        },
+        "devicesManage.emulatorPathLinux": {
+          "type": "string",
+          "default": "~/Android/Sdk/emulator/emulator",
+          "description": "The absolute path of the Android emulator directory on your Linux containing the emulator script."
+        },
+        "devicesManage.emulatorPathWindows": {
+          "type": "string",
+          "default": "~\\AppData\\Local\\Android\\Sdk\\emulator\\emulator",
+          "description": "The absolute path of the Android emulator directory on your Windows containing the emulator script."
         }
       }
     },

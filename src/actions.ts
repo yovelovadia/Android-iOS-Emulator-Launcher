@@ -1,7 +1,11 @@
 import * as vscode from "vscode";
 import os from "os";
-import { getAndroidEmulators, killAndroidEmulator, runAndroidEmulator } from "./android";
-import { getIOSSimulators, runIOSSimulator } from "./ios";
+import {
+  getAndroidEmulators,
+  killAndroidEmulator,
+  runAndroidEmulator,
+} from "./android";
+import { getIOSSimulators, killIOSSimulator, runIOSSimulator } from "./ios";
 import { IDevice } from "./types";
 
 export class Actions {
@@ -16,14 +20,18 @@ export class Actions {
     const androidEmulators = await getAndroidEmulators();
     const iosSimulators = this.device === "darwin" ? await getIOSSimulators() : [];
 
-    this.webviewView.webview.postMessage({ command: "setAvailableDevices", androidEmulators, iosSimulators });
+    this.webviewView.webview.postMessage({
+      command: "setAvailableDevices",
+      androidEmulators,
+      iosSimulators,
+    });
   }
 
   public async runDevice(device: IDevice, isColdBoot = false) {
     if (device.type === "android") {
       await runAndroidEmulator(device, isColdBoot);
     } else {
-      await runIOSSimulator(device);
+      await runIOSSimulator(device, isColdBoot);
     }
   }
 
@@ -31,7 +39,7 @@ export class Actions {
     if (device.type === "android") {
       await killAndroidEmulator(device);
     } else {
-      // await killIOSSimulator(device);
+      await killIOSSimulator(device);
     }
   }
 }
