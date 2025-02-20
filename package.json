@@ -24,10 +24,15 @@
     "configuration": {
       "title": "Emulator Configuration",
       "properties": {
-        "emulatorPreview.emulatorPath": {
+        "emulatorManage.emulatorPath": {
           "type": "string",
-          "default": "~\\AppData\\Local\\Android\\Sdk\\emulator",
+          "default": "~\\AppData\\Local\\Android\\Sdk\\emulator\\emulator",
           "description": "The absolute path of your Android emulator directory containing the emulator script."
+        },
+        "emulatorManage.simulatorPath": {
+          "type": "string",
+          "default": "",
+          "description": "The absolute path of your Xcode simulator directory containing the Simulator.app script. Leaving it empty will automatically select the path with xcode-select -p."
         }
       }
     },

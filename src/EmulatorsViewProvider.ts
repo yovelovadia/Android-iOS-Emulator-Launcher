@@ -3,6 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { getAndroidEmulators, killAndroidEmulator, runAndroidEmulator, streamAndroidLogs } from "./android";
 import { IEmulator } from "./types";
+import { getIOSSimulators } from "./ios";
 
 export class EmulatorViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "emulatorView";
@@ -54,9 +55,9 @@ export class EmulatorViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.postMessage({ command: "setImageUris", imageUris });
   }
 
-  private async sendEmulatorsData(webviewView: vscode.WebviewView) {
+  private async sendEmulatorsSimulators(webviewView: vscode.WebviewView) {
     const androidEmulators = await getAndroidEmulators();
-    webviewView.webview.postMessage({ command: "setEmulators", androidEmulators });
+    webviewView.webview.postMessage({ command: "setEmulators", androidEmulators});
   }
 
   private sendLogs(webviewView: vscode.WebviewView, emulator: IEmulator) {
@@ -67,22 +68,26 @@ export class EmulatorViewProvider implements vscode.WebviewViewProvider {
 
   private handleReceivedMessages(webviewView: vscode.WebviewView) {
     webviewView.webview.onDidReceiveMessage(async (message) => {
-      switch (message.command) {
-        case "getEmulators":
-          this.sendEmulatorsData(webviewView);
-          break;
-        case "startEmulator":
-          runAndroidEmulator(message.emulator, message.isColdBoot);
-          break;
-        case "killEmulator":
-          killAndroidEmulator(message.emulator);
-          break;
-        case "getLogs":
-          this.sendLogs(webviewView, message.emulator);
-          break;
-        case "getImageUris":
-          this.setImageUris(webviewView);
-          break;
+      try {
+        switch (message.command) {
+          case "getEmulatorsSimulators":
+            this.sendEmulatorsSimulators(webviewView);
+            break;
+          case "startEmulator":
+            runAndroidEmulator(message.emulator, message.isColdBoot);
+            break;
+          case "killEmulator":
+            killAndroidEmulator(message.emulator);
+            break;
+          case "getLogs":
+            this.sendLogs(webviewView, message.emulator);
+            break;
+          case "getImageUris":
+            this.setImageUris(webviewView);
+            break;
+        }
+      } catch (error) {
+        console.error(error);
       }
     });
   }

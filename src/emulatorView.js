@@ -5,12 +5,12 @@ let imageUris = {};
 const emulatorsContainer = document.getElementById("android-emulators-container");
 
 // On load, request the list of emulators
-vscode.postMessage({ command: "getEmulators" });
+vscode.postMessage({ command: "getEmulatorsSimulators" });
 // Get the images
 vscode.postMessage({ command: "getImageUris" });
 
 setInterval(() => {
-  vscode.postMessage({ command: "getEmulators" });
+  vscode.postMessage({ command: "getEmulatorsSimulators" });
 }, 3000);
 
 const renderEmulatorCard = (emulator, index) => {
@@ -29,7 +29,7 @@ const renderEmulatorCard = (emulator, index) => {
         <span>${emulator.label.replaceAll('_',' ')}</span>
       </div>
       <div class="actionsContainer">
-        <button id="killEmulator${labelSuffix}" title="Kill" class="actionButton killEmulatorButton">◯</button>
+        <button id="killEmulator${labelSuffix}" title="Kill" class="actionButton killEmulatorButton">▢</button>
         <button id="coldBootEmulator${labelSuffix}" title="Cold Boot" class="actionButton coldBootEmulatorButton">⭮</button>
         <button id="startEmulator${labelSuffix}" title="Start" class="actionButton startEmulatorButton">▷</button>
       </div>

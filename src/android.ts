@@ -1,29 +1,8 @@
 import { window } from "vscode";
-import { getPath, isWSL } from "./config";
-import path from "path";
+import { getAdbPath, getEmulatorPath, isWSL } from "./config";
 import { runCmd, runCmdSpawn } from "./utils";
 import os from "os";
 import { IEmulator } from "./types";
-
-const getEmulatorPath = (androidPath: string) => {
-  const emulatorPath = path.join(androidPath, "emulator");
-
-  if (isWSL()) {
-    return `${emulatorPath}.exe`;
-  }
-
-  if (process.platform.startsWith("win")) {
-    return `${emulatorPath}`;
-  }
-
-  return `${emulatorPath}`;
-};
-
-const getAdbPath = (): string => { 
-  const androidSdkPath = process.env.ANDROID_SDK_ROOT || path.join(os.homedir(), "AppData", "Local", "Android", "Sdk");
-  return path.join(androidSdkPath, "platform-tools", "adb");
-};
-
 
 const getDeviceDetails = async (emulator:IEmulator, runningDevices:string[]) => {
   const deviceDetails = {isRunning: false, instanceId: ''};
@@ -42,11 +21,9 @@ const getDeviceDetails = async (emulator:IEmulator, runningDevices:string[]) => 
 
 
 export const getAndroidEmulators = async (): Promise<IEmulator[]> => {
-  const androidPath = getPath();
-
-  const allDevicesString = await runCmd(`${getEmulatorPath(androidPath)} -list-avds`.replace("~", os.homedir()));
+  const allDevicesString = await runCmd(`${getEmulatorPath()} -list-avds`.replace("~", os.homedir()));
   const runningDevicesString = await runCmd(`${getAdbPath()} devices`);
-
+  
   if (typeof allDevicesString === "string") {
     const allDevices = allDevicesString.trim().split("\r\n");
 
@@ -71,13 +48,12 @@ export const getAndroidEmulators = async (): Promise<IEmulator[]> => {
 };
 
 export const runAndroidEmulator = async (emulator: IEmulator, isColdBoot: boolean) => {
-  const androidPath = getPath();
   if(emulator.isRunning && isColdBoot) {
     await killAndroidEmulator(emulator);
     await new Promise(resolve => setTimeout(resolve, 5000));
   }
   
-  const command = `${getEmulatorPath(androidPath)} -avd ${emulator.label} ${isColdBoot ? "-no-snapshot-load" : ""}`.replace("~", os.homedir());
+  const command = `${getEmulatorPath()} -avd ${emulator.label} ${isColdBoot ? "-no-snapshot-load" : ""}`.replace("~", os.homedir());
   await runCmd(command);
 };
 
