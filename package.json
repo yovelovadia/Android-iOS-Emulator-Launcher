@@ -55,7 +55,7 @@
       "activitybar": [
         {
           "id": "devicesManager",
-          "icon": "images/smartphone-iphone-svgrepo-com.svg",
+          "icon": "images/logo.svg",
           "title": "Devices"
         }
       ]
