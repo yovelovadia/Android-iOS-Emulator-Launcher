@@ -1,6 +1,6 @@
 {
-  "name": "emulator-manage",
-  "displayName": "emulator preview",
+  "name": "android-ios-emulator-launcher",
+  "displayName": "Android iOS Emulator Launcher",
   "description": "no description for now",
   "version": "0.0.1",
   "engines": {
@@ -13,23 +13,23 @@
   "contributes": {
     "commands": [
       {
-        "command": "emulator-manage.start",
+        "command": "android-ios-emulator-launcher.start",
         "title": "Emulator Start"
       },
       {
-        "command": "emulator-manage.openEmulatorView",
+        "command": "android-ios-emulator-launcher.openDevicesView",
         "title": "Open Emulator View"
       }
     ],
     "configuration": {
       "title": "Emulator Configuration",
       "properties": {
-        "emulatorManage.emulatorPath": {
+        "devicesManage.emulatorPath": {
           "type": "string",
           "default": "~\\AppData\\Local\\Android\\Sdk\\emulator\\emulator",
           "description": "The absolute path of your Android emulator directory containing the emulator script."
         },
-        "emulatorManage.simulatorPath": {
+        "devicesManage.simulatorPath": {
           "type": "string",
           "default": "",
           "description": "The absolute path of your Xcode simulator directory containing the Simulator.app script. Leaving it empty will automatically select the path with xcode-select -p."
@@ -39,19 +39,19 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "emulatorManager",
+          "id": "devicesManager",
           "icon": "images/smartphone-iphone-svgrepo-com.svg",
-          "title": "Emulators"
+          "title": "Devices"
         }
       ]
     },
     "views": {
-      "emulatorManager": [
+      "devicesManager": [
         {
           "type": "webview",
-          "id": "emulatorView",
-          "name": "Available Emulators",
-          "contextualTitle": "Emulators View"
+          "id": "deviceView",
+          "name": "Available Devices",
+          "contextualTitle": "Devices View"
         }
       ]
     }

@@ -1,6 +1,6 @@
-# emulator-manage README
+# android-ios-emulator-launcher README
 
-This is the README for your extension "emulator-manage". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "android-ios-emulator-launcher". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

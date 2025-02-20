@@ -3,8 +3,8 @@ import * as path from "path";
 import * as fs from "fs";
 import { Actions } from "./actions";
 
-export class EmulatorViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "emulatorView";
+export class DeviceViewProvider implements vscode.WebviewViewProvider {
+  public static readonly viewType = "deviceView";
   private actions!: Actions;
 
   constructor(private readonly _extensionUri: vscode.Uri) {}
@@ -27,17 +27,17 @@ export class EmulatorViewProvider implements vscode.WebviewViewProvider {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview): string {
-    const htmlPath = path.join(this._extensionUri.fsPath, "src", "view", "emulatorView.html");
+    const htmlPath = path.join(this._extensionUri.fsPath, "src", "view", "deviceView.html");
     let htmlContent = fs.readFileSync(htmlPath, "utf8");
 
-    const cssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "view", "emulatorView.css"));
-    const jsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "view", "emulatorView.js"));
+    const cssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "view", "deviceView.css"));
+    const jsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "src", "view", "deviceView.js"));
     const resetCssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "reset.css"));
     const vscodeCssUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css"));
 
     // Vscode must accept the css and js files like this
-    htmlContent = htmlContent.replace("emulatorView.css", cssUri.toString());
-    htmlContent = htmlContent.replace("emulatorView.js", jsUri.toString());
+    htmlContent = htmlContent.replace("deviceView.css", cssUri.toString());
+    htmlContent = htmlContent.replace("deviceView.js", jsUri.toString());
     htmlContent = htmlContent.replace("../media/reset.css", resetCssUri.toString());
     htmlContent = htmlContent.replace("../media/vscode.css", vscodeCssUri.toString());
 

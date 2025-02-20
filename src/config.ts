@@ -2,11 +2,11 @@ import {workspace} from 'vscode';
 import os from 'os';
 import path from "path";
 
-let config = workspace.getConfiguration('emulatorManage');
+let config = workspace.getConfiguration('devicesManage');
 
 workspace.onDidChangeConfiguration((event) => {
-  if (event.affectsConfiguration('emulatorManage')) {
-    config = workspace.getConfiguration('emulatorManage');
+  if (event.affectsConfiguration('devicesManage')) {
+    config = workspace.getConfiguration('devicesManage');
   }
 });
 

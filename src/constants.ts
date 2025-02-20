@@ -1,7 +1,7 @@
-export const packagePrefix = 'emulator-manage';
+export const packagePrefix = 'android-ios-emulator-launcher';
 
 export const commands = {
-  OPEN_EMULATOR_VIEW: `${packagePrefix}.openEmulatorView`,
+  OPEN_DEVICES_VIEW: `${packagePrefix}.openDevicesView`,
 };
 
 export const IOS_COMMANDS = {
