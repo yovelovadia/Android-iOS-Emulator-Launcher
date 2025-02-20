@@ -2,6 +2,7 @@
   "name": "android-ios-emulator-launcher",
   "displayName": "Android iOS Emulator Launcher",
   "description": "no description for now",
+  "publisher": "YovelOvadia",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.92.0"
@@ -11,16 +12,6 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "android-ios-emulator-launcher.start",
-        "title": "Emulator Start"
-      },
-      {
-        "command": "android-ios-emulator-launcher.openDevicesView",
-        "title": "Open Emulator View"
-      }
-    ],
     "configuration": {
       "title": "Emulator Configuration",
       "properties": {

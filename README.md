@@ -1,71 +1,31 @@
-# android-ios-emulator-launcher README
+# Android iOS Emulator Launcher
 
-This is the README for your extension "android-ios-emulator-launcher". After writing up a brief description, we recommend including the following sections.
+A VS Code extension to launch Android and iOS emulators directly from the editor.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **List Available Emulators/Simulators**
+- **Start, Kill, or Cold Boot Devices**
+- **Supports Android Emulators & iOS Simulators**
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Install the extension from the VS Code Marketplace.
+2. Configure the emulator/simulator paths in `settings.json` if needed.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Configuration
 
-## Requirements
+Modify the settings under `devicesManage` in VS Code settings:
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- `devicesManage.simulatorPath`: Path to the iOS Simulator app.
+- `devicesManage.emulatorPath`: Path to the Android Emulator script (Windows/Linux/Mac).
+- `devicesManage.emulatorPathMac`: Path to the Android Emulator script (Mac only).
+- `devicesManage.devicesManage.emulatorPathLinux`: Path to the Android Emulator script (Linux only).
+- `devicesManage.devicesManage.emulatorPathWindows`: Path to the Android Emulator script (Windows only).
 
-## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-For example:
 
-This extension contributes the following settings:
+## Video Demo
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+*Coming soon...*
