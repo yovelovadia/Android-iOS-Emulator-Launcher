@@ -2,6 +2,8 @@
 
 A VS Code extension to launch Android and iOS emulators directly from the editor.
 
+![Preview](./readme-image.png)
+
 ## Features
 
 - **List Available Emulators/Simulators**
@@ -22,10 +24,3 @@ Modify the settings under `devicesManage` in VS Code settings:
 - `devicesManage.emulatorPathMac`: Path to the Android Emulator script (Mac only).
 - `devicesManage.devicesManage.emulatorPathLinux`: Path to the Android Emulator script (Linux only).
 - `devicesManage.devicesManage.emulatorPathWindows`: Path to the Android Emulator script (Windows only).
-
-
-
-
-## Video Demo
-
-*Coming soon...*
