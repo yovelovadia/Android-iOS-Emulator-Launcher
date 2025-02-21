@@ -26,13 +26,11 @@ export class DeviceViewProvider implements vscode.WebviewViewProvider {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview): string {
-    const htmlPath = path.join(
-      this._extensionUri.fsPath,
-      "src",
-      "view",
-      "deviceView.html"
+    const htmlPath = vscode.Uri.file(
+      path.join(this._extensionUri.fsPath, "src", "view", "deviceView.html")
     );
-    let htmlContent = fs.readFileSync(htmlPath, "utf8");
+
+    let htmlContent = fs.readFileSync(htmlPath.fsPath, "utf8");
 
     const cssUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "src", "view", "deviceView.css")
