@@ -32,16 +32,31 @@ export const getIOSSimulators = async () => {
   }
 };
 
+const getIsSimulatorAppRunning = async () => {
+  try {
+    await runCmd(IOS_COMMANDS.CHECK_SIMULATOR_RUNNING);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 export const runIOSSimulator = async (
   simulator: IDevice,
   isColdBoot = false
 ) => {
   try {
-    if (isColdBoot) {
+    const isSimulatorAppRunning = await getIsSimulatorAppRunning();
+
+    if (isColdBoot && isSimulatorAppRunning) {
       await killIOSSimulator(simulator);
     }
 
-    await runCmd(IOS_COMMANDS.BOOT_SIMULATOR + simulator.instanceId);
+    if (isSimulatorAppRunning) {
+      await runCmd(IOS_COMMANDS.BOOT_SIMULATOR + simulator.instanceId);
+    } else {
+      await runCmd(IOS_COMMANDS.SIMULATOR_APP_RUN + simulator.instanceId);
+    }
   } catch (e) {
     return false;
   }

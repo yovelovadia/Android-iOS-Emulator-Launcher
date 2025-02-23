@@ -3,9 +3,9 @@
   "displayName": "Device Android/IOS Launcher",
   "description": "no description for now",
   "publisher": "YovelOvadia",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
-    "vscode": "^1.96.0"
+    "vscode": "^1.80.0"
   },
   "icon": "marketplace-icon.png", 
   "repository": {
@@ -20,11 +20,6 @@
     "configuration": {
       "title": "Emulator Configuration",
       "properties": {
-        "devicesManage.simulatorPath": {
-          "type": "string",
-          "default": "",
-          "description": "The absolute path of your Xcode simulator directory containing the Simulator.app script. Leaving it empty will automatically select the path with xcode-select -p."
-        },
         "devicesManage.emulatorPath": {
           "type": "string",
           "default": "~\\AppData\\Local\\Android\\Sdk\\emulator\\emulator",

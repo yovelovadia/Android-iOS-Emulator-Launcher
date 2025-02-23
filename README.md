@@ -1,8 +1,11 @@
 # Android iOS Emulator Launcher
 
+![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/YovelOvadia.device-android-ios-launcher)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A VS Code extension to launch Android and iOS emulators directly from the editor.
 
-![Preview](./readme-image.png)
+![Preview](./readmeVideo.gif)
 
 ## Features
 
@@ -19,8 +22,11 @@ A VS Code extension to launch Android and iOS emulators directly from the editor
 
 Modify the settings under `devicesManage` in VS Code settings:
 
-- `devicesManage.simulatorPath`: Path to the iOS Simulator app.
 - `devicesManage.emulatorPath`: Path to the Android Emulator script (Windows/Linux/Mac).
 - `devicesManage.emulatorPathMac`: Path to the Android Emulator script (Mac only).
 - `devicesManage.devicesManage.emulatorPathLinux`: Path to the Android Emulator script (Linux only).
 - `devicesManage.devicesManage.emulatorPathWindows`: Path to the Android Emulator script (Windows only).
+
+## Inspiration
+
+This extension is inspired by the [Emulate](https://marketplace.visualstudio.com/items?itemName=DiemasMichiels.emulate) extension by Diemas Michiels.
