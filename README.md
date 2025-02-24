@@ -1,4 +1,4 @@
-# Android iOS Emulator Launcher
+# Android/iOS Launcher
 
 ![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/YovelOvadia.device-android-ios-launcher)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

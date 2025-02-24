@@ -1,13 +1,13 @@
 {
   "name": "device-android-ios-launcher",
-  "displayName": "Device Android/IOS Launcher",
-  "description": "no description for now",
+  "displayName": "Android/IOS Launcher",
+  "description": "Launch Android and iOS emulators from VSCode",
   "publisher": "YovelOvadia",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.80.0"
   },
-  "icon": "marketplace-icon.png", 
+  "icon": "marketplace-icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/yovelovadia/Android-iOS-Emulator-Launcher"
@@ -74,17 +74,17 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.96.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.80.0",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
-    "eslint": "^9.19.0",
-    "typescript": "^5.7.3",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
   }
 }
